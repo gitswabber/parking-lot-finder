@@ -83,5 +83,4 @@ public class ParkingLotEntity {
 
     @Column(name = "ADD_TIME_RATE")
     private Double additionalParkingMin;
-
 }
