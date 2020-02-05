@@ -9,12 +9,7 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SeoulParkingLotApiResponse {
-    @JsonProperty("list_total_count")
-    private long totalCount;
 
-    @JsonProperty("RESULT")
-    private SeoulParkingLotResult result;
-
-    @JsonProperty("row")
-    private List<SeoulParkingLot> seoulParkingLots;
+    @JsonProperty("GetParkInfo")
+    private SeoulParkingLotGetParkInfo getParkInfo;
 }

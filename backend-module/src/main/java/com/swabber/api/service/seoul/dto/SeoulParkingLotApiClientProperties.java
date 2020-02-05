@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @Getter
 @Setter
-@PropertySource("classpath:properties/client/seoul-parking-lot-api-${spring.profiles.active}.properties")
+@PropertySource("classpath:client/seoul-parking-lot-api-${spring.profiles.active}.properties")
 @EnableConfigurationProperties(SeoulParkingLotApiClientProperties.class)
 @ConfigurationProperties(prefix = "seoul.parking.lot.api")
 public class SeoulParkingLotApiClientProperties extends ApiClientProperties {

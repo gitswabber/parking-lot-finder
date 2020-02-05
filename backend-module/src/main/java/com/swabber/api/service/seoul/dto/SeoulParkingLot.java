@@ -55,7 +55,7 @@ public class SeoulParkingLot {
     private String holidayClosingTime;
 
     @JsonProperty("SYNC_TIME")
-    private LocalDateTime updatedTime;
+    private String updatedTime;
 
     @JsonProperty("SATURDAY_PAY_NM")
     private String saturdayPayType;
