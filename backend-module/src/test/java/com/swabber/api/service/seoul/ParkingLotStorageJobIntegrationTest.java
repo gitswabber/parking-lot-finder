@@ -30,9 +30,7 @@ public class ParkingLotStorageJobIntegrationTest {
 
     @Test
     public void parkingLotStorageJob() throws Exception {
-        final JobParameters jobParameters = new JobParametersBuilder()
-                .addDate("date", new Date()).toJobParameters();
-
+        final JobParameters jobParameters = new JobParametersBuilder().addDate("date", new Date()).toJobParameters();
         jobLauncher.run(parkingLotStorageJob, jobParameters);
     }
 }

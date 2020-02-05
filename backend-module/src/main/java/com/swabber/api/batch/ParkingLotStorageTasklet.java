@@ -26,14 +26,14 @@ public class ParkingLotStorageTasklet implements Tasklet {
     private final SeoulParkingLotService seoulParkingLotService;
     private final ParkingLotRepository parkingLotRepository;
 
-    private static final int SEARCH_ITEM_COUNT = 1000;
+    private static final int SEARCH_SIZE = 1000;
     private int startIndex;
     private int endIndex;
 
     @PostConstruct
     public void setUp() {
         startIndex = 1;
-        endIndex = SEARCH_ITEM_COUNT;
+        endIndex = SEARCH_SIZE;
     }
 
     @Override
@@ -48,11 +48,11 @@ public class ParkingLotStorageTasklet implements Tasklet {
 
         parkingLotRepository.saveAll(parkingLotEntityList);
 
-        // todo
+        // todo only save data which is not contained in DB
 //        final ParkingLotEntity one = parkingLotRepository.findById(1010089L).get();
 
         startIndex = endIndex + 1;
-        endIndex += SEARCH_ITEM_COUNT;
+        endIndex += SEARCH_SIZE;
 
         return RepeatStatus.CONTINUABLE;
     }
