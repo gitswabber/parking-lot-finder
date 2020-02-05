@@ -29,8 +29,6 @@ dependencies {
     implementation("com.google.guava:guava:${project.extra["guava.version"]}")
     implementation("org.apache.commons:commons-lang3:${project.extra["commons-lang3"]}")
 
-    implementation("com.h2database:h2:${project.extra["h2.version"]}")
-
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }

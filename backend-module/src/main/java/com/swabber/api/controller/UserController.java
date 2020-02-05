@@ -26,10 +26,10 @@ public class UserController {
         return new ResponseEntity<>(allUserList, HttpStatus.OK);
     }
 
-    @GetMapping("/api/v1/users")
-    public ResponseEntity<User> getUser(@RequestParam String name) {
-        final User user = userService.getUser(name);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+//    @GetMapping("/api/v1/users")
+//    public ResponseEntity<User> getUser(@RequestParam String name) {
+//        final User user = userService.getUser(name);
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
 
 }
