@@ -1,5 +1,7 @@
 package com.swabber.api.repository;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,6 +9,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
+@Data
 @Entity
 @Table(name = "PARKING_LOT",
         indexes = {
@@ -17,7 +20,6 @@ import java.time.LocalDateTime;
         })
 public class ParkingLotEntity {
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PARKING_CODE", nullable = false)
     private Long code;
 

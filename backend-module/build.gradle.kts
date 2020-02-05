@@ -24,11 +24,11 @@ dependencies {
 
     implementation("com.h2database:h2:${project.extra["h2.version"]}")
 
-    implementation("org.mapstruct:mapstruct:${project.extra["mapstruct.version"]}")
-    annotationProcessor("org.mapstruct:mapstruct-processor:${project.extra["mapstruct.version"]}")
+    implementation("org.modelmapper:modelmapper:${project.extra["model-mapper.version"]}")
 
     implementation("com.google.guava:guava:${project.extra["guava.version"]}")
-    implementation("org.apache.commons:commons-lang3:${project.extra["commons-lang3"]}")
+    implementation("org.apache.commons:commons-lang3:${project.extra["commons-lang3.version"]}")
+    implementation("org.apache.commons:commons-collections4:${project.extra["commons-collections4.version"]}")
 
     implementation("com.squareup.retrofit2:retrofit:${project.extra["retrofit.version"]}")
     implementation("com.squareup.retrofit2:converter-jackson:${project.extra["retrofit-converter.version"]}")
