@@ -37,7 +37,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-    testImplementation("org.springframework.boot:spring-batch-test")
+    testImplementation("org.springframework.batch:spring-batch-test")
+
 }
 
 tasks.named<Test>("test") {
