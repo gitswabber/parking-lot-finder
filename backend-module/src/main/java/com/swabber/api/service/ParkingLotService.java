@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.criteria.Predicate;
 import java.util.List;
@@ -23,19 +24,15 @@ public class ParkingLotService {
         this.parkingLotRepository = parkingLotRepository;
     }
 
-
     public List<ParkingLotResponse> searchParkingLotList(ParkingLotRequest parkingLotRequest, Pageable pageable) {
-//        final List<ParkingLotResponse> parkingLotResponseList = findParkingLotListByCriteria(parkingLotRequest, pageable);
-
-        final List<ParkingLotEntity> all = parkingLotRepository.findAll();
-//        return parkingLotResponseList;
-        return Lists.newArrayList();
+        return findParkingLotListByCriteria(parkingLotRequest, pageable);
     }
 
-/*    private List<ParkingLotResponse> findParkingLotListByCriteria(ParkingLotRequest parkingLotRequest, Pageable pageable) {
-        final List<ParkingLotEntity> parkingLotEntityList =
-                parkingLotRepository.findAll((Specification<ParkingLotEntity>) (root, query, criteriaBuilder) -> {
+    private List<ParkingLotResponse> findParkingLotListByCriteria(ParkingLotRequest parkingLotRequest, Pageable pageable) {
+
+        final List<ParkingLotEntity> parkingLotEntityList = parkingLotRepository.findAll((Specification<ParkingLotEntity>) (root, query, criteriaBuilder) -> {
                     List<Predicate> predicates = Lists.newArrayList();
+
                     if (StringUtils.isNotBlank(parkingLotRequest.getAddress())) {
                         predicates.add(criteriaBuilder.like(root.get("address"), "%" + parkingLotRequest.getAddress() + "%"));
                     }
@@ -45,11 +42,17 @@ public class ParkingLotService {
                     if (StringUtils.isNotBlank(parkingLotRequest.getTel())) {
                         predicates.add(criteriaBuilder.like(root.get("tel"), "%" + parkingLotRequest.getTel() + "%"));
                     }
+
                     return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-                });
+                }
+                , pageable).getContent();
+
+        if (CollectionUtils.isEmpty(parkingLotEntityList)) {
+            return Lists.newArrayList();
+        }
 
         return mapToParkingLotResponse(parkingLotEntityList);
-    }*/
+    }
 
     private List<ParkingLotResponse> mapToParkingLotResponse(List<ParkingLotEntity> parkingLotEntityList) {
         final ModelMapper modelMapper = new ModelMapper();

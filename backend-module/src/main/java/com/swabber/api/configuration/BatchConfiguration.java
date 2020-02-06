@@ -9,4 +9,5 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableBatchProcessing
 @EnableScheduling
 public class BatchConfiguration /*extends DefaultBatchConfigurer*/ {
+    // todo
 }

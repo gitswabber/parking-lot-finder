@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @StepScope
@@ -48,16 +47,11 @@ public class ParkingLotStorageTasklet implements Tasklet {
         final List<ParkingLotEntity> parkingLotEntityList = mapToParkingLotEntityList(seoulParkingLotList);
 
         parkingLotRepository.saveAll(parkingLotEntityList);
-        System.out.println("야야야야야야");
-
-//        // todo only save data which is not contained in DB
-//        final Optional<ParkingLotEntity> byId = parkingLotRepository.findById(parkingLotEntityList.get(0).getCode());
-//        final List<ParkingLotEntity> all = parkingLotRepository.findAll();
 
         startIndex = endIndex + 1;
         endIndex += SEARCH_SIZE;
 
-        return RepeatStatus.FINISHED;
+        return RepeatStatus.CONTINUABLE;
     }
 
     private List<ParkingLotEntity> mapToParkingLotEntityList(List<SeoulParkingLot> seoulParkingLotList) {
