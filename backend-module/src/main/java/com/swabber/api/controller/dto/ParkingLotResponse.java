@@ -12,4 +12,5 @@ import java.util.List;
 public class ParkingLotResponse {
     private List<ParkingLotItemResponse> itemResponseList;
     private int totalItemsCount;
+    private boolean available;
 }

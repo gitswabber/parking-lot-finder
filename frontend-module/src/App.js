@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ParkingLotList from "./components/ParkingLotList";
 import Pagination from "react-js-pagination";
-import {Button, ButtonGroup, ButtonToolbar} from 'react-bootstrap';
+import {Form, InputGroup, FormControl, Button, ButtonGroup, ButtonToolbar} from 'react-bootstrap';
 
 class App extends Component {
 
@@ -23,6 +23,10 @@ class App extends Component {
         this.clickSearchButton = this.clickSearchButton.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.searchParkingLotList = this.searchParkingLotList.bind(this);
+    }
+
+    // todo handling for initialization
+    componentDidMount() {
     }
 
     handleAddressChange(e) {
@@ -79,11 +83,23 @@ class App extends Component {
                         Name : <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
                         Tel : <input type="text" value={this.state.tel} onChange={this.handleTelChange}/>
                     </label>
+                    {/*                    <Form>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text id="basic-addon1">Address</InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl
+                                placeholder="address"
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                            />
+                        </InputGroup>
+                    </Form>
                     <ButtonGroup>
                         <ButtonToolbar>
                             <Button variant="secondary" onClick={() => this.clickSearchButton()}>Search</Button>
                         </ButtonToolbar>
-                    </ButtonGroup>
+                    </ButtonGroup>*/}
                 </form>
                 <ParkingLotList data={this.state.parkingLotList}/>
                 <div className="d-flex justify-content-center">

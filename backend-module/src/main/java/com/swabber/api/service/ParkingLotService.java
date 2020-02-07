@@ -27,6 +27,7 @@ public class ParkingLotService {
         final List<ParkingLotItemResponse> itemResponseList = findParkingLotListByCriteria(parkingLotRequest, pageable);
         final int totalItemsCount = countParkingLotListByCriteria(parkingLotRequest);
 
+
         ParkingLotResponse parkingLotResponse = new ParkingLotResponse();
         parkingLotResponse.setItemResponseList(itemResponseList);
         parkingLotResponse.setTotalItemsCount(totalItemsCount);
@@ -65,10 +66,15 @@ public class ParkingLotService {
         };
     }
 
+    // todo
     private List<ParkingLotItemResponse> mapToParkingLotResponse(List<ParkingLotEntity> parkingLotEntityList) {
         final ModelMapper modelMapper = new ModelMapper();
         List<ParkingLotItemResponse> itemResponseList = Lists.newArrayList();
-        parkingLotEntityList.forEach(parkingLotEntity -> itemResponseList.add(modelMapper.map(parkingLotEntity, ParkingLotItemResponse.class)));
+        parkingLotEntityList.forEach(parkingLotEntity -> {
+            final ParkingLotItemResponse parkingLotItemResponse = modelMapper.map(parkingLotEntity, ParkingLotItemResponse.class);
+//            parkingLotItemResponse.get
+//            itemResponseList.add();
+        });
         return itemResponseList;
     }
 }
