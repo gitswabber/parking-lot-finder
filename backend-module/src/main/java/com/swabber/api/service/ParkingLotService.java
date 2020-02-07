@@ -1,10 +1,12 @@
 package com.swabber.api.service;
 
 import com.google.common.collect.Lists;
+import com.swabber.api.controller.dto.ParkingLotItemResponse;
 import com.swabber.api.controller.dto.ParkingLotRequest;
 import com.swabber.api.controller.dto.ParkingLotResponse;
 import com.swabber.api.repository.ParkingLotEntity;
 import com.swabber.api.repository.ParkingLotRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
@@ -16,19 +18,23 @@ import javax.persistence.criteria.Predicate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ParkingLotService {
 
     private final ParkingLotRepository parkingLotRepository;
 
-    public ParkingLotService(ParkingLotRepository parkingLotRepository) {
-        this.parkingLotRepository = parkingLotRepository;
+    public ParkingLotResponse searchParkingLotList(ParkingLotRequest parkingLotRequest, Pageable pageable) {
+        final List<ParkingLotItemResponse> itemResponseList = findParkingLotListByCriteria(parkingLotRequest, pageable);
+        final int totalItemsCount = (int) parkingLotRepository.count();
+
+        ParkingLotResponse parkingLotResponse = new ParkingLotResponse();
+        parkingLotResponse.setItemResponseList(itemResponseList);
+        parkingLotResponse.setTotalItemsCount(totalItemsCount);
+
+        return parkingLotResponse;
     }
 
-    public List<ParkingLotResponse> searchParkingLotList(ParkingLotRequest parkingLotRequest, Pageable pageable) {
-        return findParkingLotListByCriteria(parkingLotRequest, pageable);
-    }
-
-    private List<ParkingLotResponse> findParkingLotListByCriteria(ParkingLotRequest parkingLotRequest, Pageable pageable) {
+    private List<ParkingLotItemResponse> findParkingLotListByCriteria(ParkingLotRequest parkingLotRequest, Pageable pageable) {
 
         final List<ParkingLotEntity> parkingLotEntityList = parkingLotRepository.findAll((Specification<ParkingLotEntity>) (root, query, criteriaBuilder) -> {
                     List<Predicate> predicates = Lists.newArrayList();
@@ -54,10 +60,10 @@ public class ParkingLotService {
         return mapToParkingLotResponse(parkingLotEntityList);
     }
 
-    private List<ParkingLotResponse> mapToParkingLotResponse(List<ParkingLotEntity> parkingLotEntityList) {
+    private List<ParkingLotItemResponse> mapToParkingLotResponse(List<ParkingLotEntity> parkingLotEntityList) {
         final ModelMapper modelMapper = new ModelMapper();
-        List<ParkingLotResponse> parkingLotResponseList = Lists.newArrayList();
-        parkingLotEntityList.forEach(parkingLotEntity -> parkingLotResponseList.add(modelMapper.map(parkingLotEntity, ParkingLotResponse.class)));
-        return parkingLotResponseList;
+        List<ParkingLotItemResponse> itemResponseList = Lists.newArrayList();
+        parkingLotEntityList.forEach(parkingLotEntity -> itemResponseList.add(modelMapper.map(parkingLotEntity, ParkingLotItemResponse.class)));
+        return itemResponseList;
     }
 }

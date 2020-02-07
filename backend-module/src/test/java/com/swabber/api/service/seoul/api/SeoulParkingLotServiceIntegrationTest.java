@@ -19,6 +19,6 @@ class SeoulParkingLotServiceIntegrationTest {
     @Disabled
     @Test
     void getSeoulParkingLotList() {
-        final List<SeoulParkingLot> seoulParkingLotList = seoulParkingLotService.getSeoulParkingLotList(20000, 20100);
+        final List<SeoulParkingLot> seoulParkingLotList = seoulParkingLotService.getSeoulParkingLotList(1, 1000);
     }
 }

@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -22,8 +20,8 @@ public class ParkingLotController {
     private final ParkingLotService parkingLotService;
 
     @GetMapping("parking-lots")
-    public ResponseEntity<List<ParkingLotResponse>> searchParkingLotList(@ModelAttribute ParkingLotRequest parkingLotRequest, Pageable pageable) {
-        final List<ParkingLotResponse> parkingLotResponses = parkingLotService.searchParkingLotList(parkingLotRequest, pageable);
-        return new ResponseEntity<>(parkingLotResponses, HttpStatus.OK);
+    public ResponseEntity<ParkingLotResponse> searchParkingLotList(@ModelAttribute ParkingLotRequest parkingLotRequest, Pageable pageable) {
+        final ParkingLotResponse parkingLotResponse = parkingLotService.searchParkingLotList(parkingLotRequest, pageable);
+        return new ResponseEntity<>(parkingLotResponse, HttpStatus.OK);
     }
 }
