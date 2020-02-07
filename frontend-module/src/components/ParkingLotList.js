@@ -2,8 +2,6 @@ import React from "react";
 
 const ParkingLotList = ({data: parkingLotList}) => {
 
-    console.log(parkingLotList);
-
     return (
         <div>
             {parkingLotList.map((parkingLot, i) => (

@@ -25,7 +25,7 @@ public class ParkingLotService {
 
     public ParkingLotResponse searchParkingLotList(ParkingLotRequest parkingLotRequest, Pageable pageable) {
         final List<ParkingLotItemResponse> itemResponseList = findParkingLotListByCriteria(parkingLotRequest, pageable);
-        final int totalItemsCount = (int) parkingLotRepository.count();
+        final int totalItemsCount = countParkingLotListByCriteria(parkingLotRequest);
 
         ParkingLotResponse parkingLotResponse = new ParkingLotResponse();
         parkingLotResponse.setItemResponseList(itemResponseList);
@@ -35,29 +35,34 @@ public class ParkingLotService {
     }
 
     private List<ParkingLotItemResponse> findParkingLotListByCriteria(ParkingLotRequest parkingLotRequest, Pageable pageable) {
-
-        final List<ParkingLotEntity> parkingLotEntityList = parkingLotRepository.findAll((Specification<ParkingLotEntity>) (root, query, criteriaBuilder) -> {
-                    List<Predicate> predicates = Lists.newArrayList();
-
-                    if (StringUtils.isNotBlank(parkingLotRequest.getAddress())) {
-                        predicates.add(criteriaBuilder.like(root.get("address"), "%" + parkingLotRequest.getAddress() + "%"));
-                    }
-                    if (StringUtils.isNotBlank(parkingLotRequest.getName())) {
-                        predicates.add(criteriaBuilder.like(root.get("name"), "%" + parkingLotRequest.getName() + "%"));
-                    }
-                    if (StringUtils.isNotBlank(parkingLotRequest.getTel())) {
-                        predicates.add(criteriaBuilder.like(root.get("tel"), "%" + parkingLotRequest.getTel() + "%"));
-                    }
-
-                    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-                }
-                , pageable).getContent();
+        final List<ParkingLotEntity> parkingLotEntityList = parkingLotRepository.findAll(getSpecification(parkingLotRequest), pageable).getContent();
 
         if (CollectionUtils.isEmpty(parkingLotEntityList)) {
             return Lists.newArrayList();
         }
-
         return mapToParkingLotResponse(parkingLotEntityList);
+    }
+
+    private int countParkingLotListByCriteria(ParkingLotRequest parkingLotRequest) {
+        return (int) parkingLotRepository.count(getSpecification(parkingLotRequest));
+    }
+
+    private Specification<ParkingLotEntity> getSpecification(ParkingLotRequest parkingLotRequest) {
+        return (Specification<ParkingLotEntity>) (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = Lists.newArrayList();
+
+            if (StringUtils.isNotBlank(parkingLotRequest.getAddress())) {
+                predicates.add(criteriaBuilder.like(root.get("address"), "%" + parkingLotRequest.getAddress() + "%"));
+            }
+            if (StringUtils.isNotBlank(parkingLotRequest.getName())) {
+                predicates.add(criteriaBuilder.like(root.get("name"), "%" + parkingLotRequest.getName() + "%"));
+            }
+            if (StringUtils.isNotBlank(parkingLotRequest.getTel())) {
+                predicates.add(criteriaBuilder.like(root.get("tel"), "%" + parkingLotRequest.getTel() + "%"));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
     }
 
     private List<ParkingLotItemResponse> mapToParkingLotResponse(List<ParkingLotEntity> parkingLotEntityList) {

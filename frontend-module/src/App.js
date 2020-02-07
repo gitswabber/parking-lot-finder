@@ -12,18 +12,17 @@ class App extends Component {
             address: '',
             name: '',
             tel: '',
-            activePage: 1
+            activePage: 1,
+            itemsCountPerPage: 10,
+            pageRangeDisplayed: 5,
+            totalItemsCount: 0
         };
         this.handleAddressChange = this.handleAddressChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleTelChange = this.handleTelChange.bind(this);
         this.clickSearchButton = this.clickSearchButton.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
-        console.log("App constructor.");
-    }
-
-    componentDidMount() {
-        console.log("Finished rendering App onto DOM.");
+        this.searchParkingLotList = this.searchParkingLotList.bind(this);
     }
 
     handleAddressChange(e) {
@@ -40,18 +39,33 @@ class App extends Component {
 
     clickSearchButton() {
         this.setState({activePage: 1});
-        fetch('http://localhost:8080/api/v1/parking-lots')
-            .then(res => res.json())
-            .then((data) => {
-                this.setState({parkingLotList: data})
-            })
-            .catch(console.log)
-        console.log("Data: " + this.state.parkingLotList);
+        this.searchParkingLotList(1);
     }
 
     handlePageChange(pageNumber) {
-        console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
+        this.searchParkingLotList(pageNumber);
+    }
+
+    searchParkingLotList(pageNumber) {
+        const activePage = pageNumber - 1;
+        const parameters = "?address=" + this.state.address + "&name=" + this.state.name + "&tel=" + this.state.tel
+            + "&page=" + activePage + "&size=" + this.state.itemsCountPerPage
+            + "&sort=basicParkingFee,ASC";
+
+        console.log(parameters);
+
+        fetch('http://localhost:8080/api/v1/parking-lots' + parameters)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    parkingLotList: data.itemResponseList,
+                    totalItemsCount: data.totalItemsCount
+                })
+            })
+            .catch(error => {
+                alert("A system error has occurred : " + error);
+            });
     }
 
     render() {
@@ -75,9 +89,9 @@ class App extends Component {
                 <div className="d-flex justify-content-center">
                     <Pagination
                         activePage={this.state.activePage}
-                        itemsCountPerPage={10}
-                        totalItemsCount={450}
-                        pageRangeDisplayed={5}
+                        itemsCountPerPage={this.state.itemsCountPerPage}
+                        totalItemsCount={this.state.totalItemsCount}
+                        pageRangeDisplayed={this.state.pageRangeDisplayed}
                         itemClass='page-item'
                         linkClass='page-link'
                         onChange={this.handlePageChange}
