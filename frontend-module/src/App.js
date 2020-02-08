@@ -94,12 +94,12 @@ class App extends Component {
                                 aria-describedby="basic-addon1"
                             />
                         </InputGroup>
-                    </Form>
+                    </Form>*/}
                     <ButtonGroup>
                         <ButtonToolbar>
                             <Button variant="secondary" onClick={() => this.clickSearchButton()}>Search</Button>
                         </ButtonToolbar>
-                    </ButtonGroup>*/}
+                    </ButtonGroup>
                 </form>
                 <ParkingLotList data={this.state.parkingLotList}/>
                 <div className="d-flex justify-content-center">
