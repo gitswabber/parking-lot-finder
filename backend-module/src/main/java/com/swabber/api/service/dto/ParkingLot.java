@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,23 +14,14 @@ public class ParkingLot {
     private Long code;
     private String name;
     private String address;
-    private String type;
-    private String operationRule;
     private String tel;
-    private String parkingCapacityCount;
-    private String payType;
-    private String nightFreeOpen;
+    private int parkingCapacityCount;
+    private int currentParkingCount;
     private String weekdayOpeningTime;
     private String weekdayClosingTime;
     private String weekendOpeningTime;
     private String weekendClosingTime;
-    private String holidayOpeningTime;
-    private String holidayClosingTime;
-    private String updatedTime;
-    private String saturdayPayType;
-    private String holidayPayType;
-    private Double basicParkingFee;
-    private Double basicParkingMin;
-    private Double additionalParkingFee;
-    private Double additionalParkingMin;
+    private LocalDateTime updatedTime;
+    private int basicParkingFee;
+    private int basicParkingMin;
 }
