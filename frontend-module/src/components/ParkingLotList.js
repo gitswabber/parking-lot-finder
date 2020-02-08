@@ -13,6 +13,7 @@ const ParkingLotList = ({data: parkingLotList}) => {
                         <p className="card-text">Open : {parkingLot.openingTime}</p>
                         <p className="card-text">Close : {parkingLot.closingTime}</p>
                         <p className="card-text">{parkingLot.available ? "Parking available" : "Parking not available"}</p>
+                        <p className="card-text">{parkingLot.availableCount}</p>
                     </div>
                 </div>
             ))}

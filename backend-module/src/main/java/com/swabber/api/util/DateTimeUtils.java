@@ -15,6 +15,6 @@ public final class DateTimeUtils {
     public static String getHourMinute(LocalDateTime localDateTime) {
         final int hour = localDateTime.getHour();
         final int minute = localDateTime.getMinute();
-        return (hour < 10 ? "0" : "") + hour + minute;
+        return (hour < 10 ? "0" : "") + hour + (minute < 10 ? "0" : "") + minute;
     }
 }

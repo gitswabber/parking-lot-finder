@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+// todo rename propertie file
 @Configuration
 @PropertySource("classpath:properties/application-${spring.profiles.active}.properties")
 public class WebConfiguration implements WebMvcConfigurer {

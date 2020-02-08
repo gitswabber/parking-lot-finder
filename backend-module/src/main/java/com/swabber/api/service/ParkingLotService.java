@@ -9,14 +9,11 @@ import com.swabber.api.repository.ParkingLotRepository;
 import com.swabber.api.util.DateTimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,22 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ParkingLotService {
 
+    private final ParkingLotMapper parkingLotMapper;
     private final ParkingLotRepository parkingLotRepository;
-
-    private static ModelMapper modelMapper;
-
-    @PostConstruct
-    public void setUp() {
-        modelMapper = new ModelMapper();
-        modelMapper.addMappings(new PropertyMap<ParkingLotEntity, ParkingLotItemResponse>() {
-            @Override
-            protected void configure() {
-                skip().setAvailable(false);
-                skip().setOpeningTime(null);
-                skip().setClosingTime(null);
-            }
-        });
-    }
 
     public ParkingLotResponse searchParkingLotList(ParkingLotRequest parkingLotRequest, Pageable pageable) {
         final List<ParkingLotItemResponse> itemResponseList = findParkingLotListByCriteria(parkingLotRequest, pageable);
@@ -54,6 +37,7 @@ public class ParkingLotService {
     }
 
     private List<ParkingLotItemResponse> findParkingLotListByCriteria(ParkingLotRequest parkingLotRequest, Pageable pageable) {
+        // todo return page
         final List<ParkingLotEntity> parkingLotEntityList = parkingLotRepository.findAll(getSpecification(parkingLotRequest), pageable).getContent();
 
         if (CollectionUtils.isEmpty(parkingLotEntityList)) {
@@ -67,7 +51,7 @@ public class ParkingLotService {
     }
 
     private Specification<ParkingLotEntity> getSpecification(ParkingLotRequest parkingLotRequest) {
-        return (Specification<ParkingLotEntity>) (root, query, criteriaBuilder) -> {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = Lists.newArrayList();
 
             if (StringUtils.isNotBlank(parkingLotRequest.getAddress())) {
@@ -88,12 +72,14 @@ public class ParkingLotService {
         List<ParkingLotItemResponse> itemResponseList = Lists.newArrayList();
 
         parkingLotEntityList.forEach(parkingLotEntity -> {
-            final ParkingLotItemResponse parkingLotItemResponse = modelMapper.map(parkingLotEntity, ParkingLotItemResponse.class);
+            final ParkingLotItemResponse parkingLotItemResponse = parkingLotMapper.mapToParkingLotItemResponse(parkingLotEntity);
 
             final LocalDateTime today = LocalDateTime.now();
             parkingLotItemResponse.setAvailable(isParkingAvailable(today, parkingLotEntity));
             parkingLotItemResponse.setOpeningTime(DateTimeUtils.isWeekend(today) ? parkingLotEntity.getWeekendOpeningTime() : parkingLotEntity.getWeekdayOpeningTime());
             parkingLotItemResponse.setClosingTime(DateTimeUtils.isWeekend(today) ? parkingLotEntity.getWeekendClosingTime() : parkingLotEntity.getWeekdayClosingTime());
+
+            parkingLotItemResponse.setAvailableCount(parkingLotEntity.getParkingCapacityCount() - parkingLotEntity.getCurrentParkingCount());
 
             itemResponseList.add(parkingLotItemResponse);
         });
@@ -108,6 +94,7 @@ public class ParkingLotService {
                     Integer.parseInt(parkingLotEntity.getWeekendOpeningTime()) : Integer.parseInt(parkingLotEntity.getWeekdayOpeningTime());
             int closingTime = DateTimeUtils.isWeekend(today) ?
                     Integer.parseInt(parkingLotEntity.getWeekendClosingTime()) : Integer.parseInt(parkingLotEntity.getWeekdayClosingTime());
+            // In case business hour is 24 hours.
             if (openingTime == closingTime) {
                 return true;
             }

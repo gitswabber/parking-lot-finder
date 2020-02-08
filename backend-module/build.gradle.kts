@@ -38,6 +38,7 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("org.springframework.batch:spring-batch-test")
+    testImplementation("org.mockito:mockito-junit-jupiter:${project.extra["mockito-jupiter.version"]}")
 
 }
 

@@ -57,8 +57,6 @@ class App extends Component {
             + "&page=" + activePage + "&size=" + this.state.itemsCountPerPage
             + "&sort=basicParkingFee,ASC";
 
-        console.log(parameters);
-
         fetch('http://localhost:8080/api/v1/parking-lots' + parameters)
             .then(res => res.json())
             .then(data => {
