@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ParkingLotResponse {
     private List<ParkingLotItemResponse> itemResponseList;
-    private int totalItemsCount;
+    private long totalItemsCount;
 }
