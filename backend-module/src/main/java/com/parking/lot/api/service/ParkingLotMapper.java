@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 
 @Component
-public final class ParkingLotMapper {
+public class ParkingLotMapper {
 
     private static ModelMapper modelMapper;
 

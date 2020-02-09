@@ -15,6 +15,7 @@ public final class DateTimeUtils {
     public static String getHourMinute(LocalDateTime localDateTime) {
         final int hour = localDateTime.getHour();
         final int minute = localDateTime.getMinute();
+        // To add prefix "0" when time value is 1 digit.
         return (hour < 10 ? "0" : "") + hour + (minute < 10 ? "0" : "") + minute;
     }
 }

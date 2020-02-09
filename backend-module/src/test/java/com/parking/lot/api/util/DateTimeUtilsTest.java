@@ -2,24 +2,38 @@ package com.parking.lot.api.util;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
+import java.util.stream.Stream;
 
 class DateTimeUtilsTest {
 
-    @Test
-    void isWeekday() {
-        final LocalDateTime friday = LocalDateTime.of(2020, 2, 7, 11, 10);
-        final LocalDateTime saturday = LocalDateTime.of(2020, 2, 8, 11, 10);
-        Assertions.assertFalse(DateTimeUtils.isWeekend(friday));
-        Assertions.assertTrue(DateTimeUtils.isWeekend(saturday));
+    private static Stream<Arguments> provideForIsWeekday() {
+        return Stream.of(
+                Arguments.of(LocalDateTime.of(2020, 2, 7, 11, 10), false),
+                Arguments.of(LocalDateTime.of(2020, 2, 8, 11, 10), true)
+        );
     }
 
-    @Test
-    void getHourMinute() {
-        final LocalDateTime localDateTime = LocalDateTime.of(2020, 2, 8, 11, 10);
-        Assertions.assertEquals("1110", DateTimeUtils.getHourMinute(localDateTime));
-        final LocalDateTime localDateTime2 = LocalDateTime.of(2020, 2, 8, 9, 8);
-        Assertions.assertEquals("0908", DateTimeUtils.getHourMinute(localDateTime2));
+    @ParameterizedTest
+    @MethodSource("provideForIsWeekday")
+    void isWeekday(LocalDateTime localDateTime, boolean expected) {
+        Assertions.assertEquals(expected, DateTimeUtils.isWeekend(localDateTime));
+    }
+
+    private static Stream<Arguments> provideForGetHourMinute() {
+        return Stream.of(
+                Arguments.of(LocalDateTime.of(2020, 2, 8, 11, 10), "1110"),
+                Arguments.of(LocalDateTime.of(2020, 2, 8, 9, 8), "0908")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideForGetHourMinute")
+    void getHourMinute(LocalDateTime localDateTime, String expected) {
+        Assertions.assertEquals(expected, DateTimeUtils.getHourMinute(localDateTime));
     }
 }

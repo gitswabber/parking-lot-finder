@@ -42,7 +42,7 @@ public class ParkingLotService {
             List<Predicate> predicates = Lists.newArrayList();
             final String address = parkingLotRequest.getAddress();
             final String name = parkingLotRequest.getName();
-            final String tel = parkingLotRequest.getTel();
+            parkingLotRequest.getTel();
 
             if (StringUtils.isNotBlank(address)) {
                 predicates.add(criteriaBuilder.like(root.get("address"), "%" + address + "%"));
@@ -50,8 +50,8 @@ public class ParkingLotService {
             if (StringUtils.isNotBlank(name)) {
                 predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
             }
-            if (StringUtils.isNotBlank(tel)) {
-                predicates.add(criteriaBuilder.like(root.get("tel"), "%" + tel + "%"));
+            if (StringUtils.isNotBlank(parkingLotRequest.getTel())) {
+                predicates.add(criteriaBuilder.like(root.get("tel"), "%" + parkingLotRequest.getTel() + "%"));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
