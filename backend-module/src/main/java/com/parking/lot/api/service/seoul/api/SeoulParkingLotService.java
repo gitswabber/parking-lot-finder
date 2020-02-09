@@ -33,13 +33,14 @@ public class SeoulParkingLotService {
             final Call<SeoulParkingLotApiResponse> seoulParkingLotApiCall = retrofitService.getSeoulParkingLotInformation(apiClientProperties.getAuthKey(), startIndex, endIndex);
             final Response<SeoulParkingLotApiResponse> apiCallResponse = seoulParkingLotApiCall.execute();
             final SeoulParkingLotApiResponse seoulParkingLotApiResponse = apiCallResponse.body();
+
             if (Objects.nonNull(seoulParkingLotApiResponse.getGetParkInfo())) {
                 return seoulParkingLotApiResponse.getGetParkInfo().getSeoulParkingLotList();
             }
+            return Lists.newArrayList();
         } catch (Exception e) {
             throw new BatchJobException(String.format("Error has occurred while getting parking lot information from Seoul open API. " +
                     "Auth key : %s, Search index from %s to %s.", apiClientProperties.getAuthKey(), startIndex, endIndex), e);
         }
-        return Lists.newArrayList();
     }
 }

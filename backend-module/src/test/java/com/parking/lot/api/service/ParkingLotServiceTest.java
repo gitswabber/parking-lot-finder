@@ -5,6 +5,7 @@ import com.parking.lot.api.controller.dto.ParkingLotRequest;
 import com.parking.lot.api.controller.dto.ParkingLotResponse;
 import com.parking.lot.api.repository.ParkingLotEntity;
 import com.parking.lot.api.repository.ParkingLotRepository;
+import com.parking.lot.api.repository.ParkingLotSpecification;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.TestInstance;
@@ -42,6 +43,9 @@ public class ParkingLotServiceTest {
     private ParkingLotMapper parkingLotMapper;
 
     @Mock
+    private ParkingLotSpecification parkingLotSpecification;
+
+    @Mock
     private ParkingLotRepository parkingLotRepository;
 
     @InjectMocks
@@ -56,6 +60,10 @@ public class ParkingLotServiceTest {
         parkingLotEntityList.add(new ParkingLotEntity());
         parkingLotEntityList.add(new ParkingLotEntity());
         Page<ParkingLotEntity> parkingLotEntityPage = new PageImpl<>(parkingLotEntityList);
+        List<ParkingLotItemResponse> itemResponseList = Lists.newArrayList();
+        itemResponseList.add(new ParkingLotItemResponse());
+        itemResponseList.add(new ParkingLotItemResponse());
+        itemResponseList.add(new ParkingLotItemResponse());
 
         ParkingLotRequest parkingLotRequest2 = new ParkingLotRequest();
         parkingLotRequest2.setName("test2");
@@ -64,25 +72,30 @@ public class ParkingLotServiceTest {
         parkingLotEntityList2.add(new ParkingLotEntity());
         parkingLotEntityList2.add(new ParkingLotEntity());
         Page<ParkingLotEntity> parkingLotEntityPage2 = new PageImpl<>(parkingLotEntityList2);
+        List<ParkingLotItemResponse> itemResponseList2 = Lists.newArrayList();
+        itemResponseList2.add(new ParkingLotItemResponse());
+        itemResponseList2.add(new ParkingLotItemResponse());
 
         return Stream.of(
-                Arguments.of(parkingLotRequest, pageable, parkingLotEntityPage, 3),
-                Arguments.of(parkingLotRequest2, pageable2, parkingLotEntityPage2, 2)
+                Arguments.of(parkingLotRequest, pageable, parkingLotEntityPage, itemResponseList, 3),
+                Arguments.of(parkingLotRequest2, pageable2, parkingLotEntityPage2, itemResponseList2, 2)
         );
     }
 
     @ParameterizedTest
     @MethodSource("provideForSearchParkingLotList")
-    void searchParkingLotList(ParkingLotRequest parkingLotRequest, Pageable pageable, Page<ParkingLotEntity> parkingLotEntityPage, int expected) {
-        ParkingLotItemResponse parkingLotItemResponse = mock(ParkingLotItemResponse.class);
+    void searchParkingLotList(ParkingLotRequest parkingLotRequest, Pageable pageable, Page<ParkingLotEntity> parkingLotEntityPage, List<ParkingLotItemResponse> itemResponseList, int expected) {
+        Specification specification = mock(Specification.class);
 
+        when(parkingLotSpecification.getSpecification(parkingLotRequest.getAddress(), parkingLotRequest.getName(), parkingLotRequest.getTel())).thenReturn(specification);
         when(parkingLotRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(parkingLotEntityPage);
-        when(parkingLotMapper.mapToParkingLotItemResponse(any(ParkingLotEntity.class))).thenReturn(parkingLotItemResponse);
+
+        when(parkingLotMapper.mapToParkingLotItemResponseList(parkingLotEntityPage.getContent())).thenReturn(itemResponseList);
 
         final ParkingLotResponse parkingLotResponse = parkingLotService.searchParkingLotList(parkingLotRequest, pageable);
 
         verify(parkingLotRepository, times(1)).findAll(any(Specification.class), eq(pageable));
-        verify(parkingLotMapper, times(expected)).mapToParkingLotItemResponse(any(ParkingLotEntity.class));
+        verify(parkingLotMapper, times(1)).mapToParkingLotItemResponseList(any(List.class));
         Assertions.assertEquals(expected, parkingLotResponse.getTotalItemsCount());
         Assertions.assertEquals(expected, parkingLotResponse.getItemResponseList().size());
     }

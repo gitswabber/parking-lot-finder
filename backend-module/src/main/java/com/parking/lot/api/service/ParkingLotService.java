@@ -1,20 +1,17 @@
 package com.parking.lot.api.service;
 
-import com.google.common.collect.Lists;
 import com.parking.lot.api.controller.dto.ParkingLotItemResponse;
 import com.parking.lot.api.controller.dto.ParkingLotRequest;
 import com.parking.lot.api.controller.dto.ParkingLotResponse;
 import com.parking.lot.api.repository.ParkingLotEntity;
 import com.parking.lot.api.repository.ParkingLotRepository;
+import com.parking.lot.api.repository.ParkingLotSpecification;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
-import javax.persistence.criteria.Predicate;
 import java.util.List;
 
 @Service
@@ -22,11 +19,14 @@ import java.util.List;
 public class ParkingLotService {
 
     private final ParkingLotMapper parkingLotMapper;
+    private final ParkingLotSpecification parkingLotSpecification;
     private final ParkingLotRepository parkingLotRepository;
 
     public ParkingLotResponse searchParkingLotList(ParkingLotRequest parkingLotRequest, Pageable pageable) {
-        final Page<ParkingLotEntity> parkingLotEntityPage = parkingLotRepository.findAll(getSpecification(parkingLotRequest), pageable);
-        final List<ParkingLotItemResponse> itemResponseList = mapToParkingLotResponseList(parkingLotEntityPage.getContent());
+        final Specification<ParkingLotEntity> specification = parkingLotSpecification.getSpecification(parkingLotRequest.getAddress(), parkingLotRequest.getName(), parkingLotRequest.getTel());
+        final Page<ParkingLotEntity> parkingLotEntityPage = parkingLotRepository.findAll(specification, pageable);
+
+        final List<ParkingLotItemResponse> itemResponseList = parkingLotMapper.mapToParkingLotItemResponseList(parkingLotEntityPage.getContent());
 
         ParkingLotResponse parkingLotResponse = new ParkingLotResponse();
         parkingLotResponse.setItemResponseList(itemResponseList);
@@ -35,36 +35,4 @@ public class ParkingLotService {
         return parkingLotResponse;
     }
 
-    private Specification<ParkingLotEntity> getSpecification(ParkingLotRequest parkingLotRequest) {
-        Assert.notNull(parkingLotRequest, "'parkingLotRequest' must not be null.");
-
-        return (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = Lists.newArrayList();
-            final String address = parkingLotRequest.getAddress();
-            final String name = parkingLotRequest.getName();
-            parkingLotRequest.getTel();
-
-            if (StringUtils.isNotBlank(address)) {
-                predicates.add(criteriaBuilder.like(root.get("address"), "%" + address + "%"));
-            }
-            if (StringUtils.isNotBlank(name)) {
-                predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
-            }
-            if (StringUtils.isNotBlank(parkingLotRequest.getTel())) {
-                predicates.add(criteriaBuilder.like(root.get("tel"), "%" + parkingLotRequest.getTel() + "%"));
-            }
-
-            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-        };
-    }
-
-    private List<ParkingLotItemResponse> mapToParkingLotResponseList(List<ParkingLotEntity> parkingLotEntityList) {
-        List<ParkingLotItemResponse> itemResponseList = Lists.newArrayList();
-
-        parkingLotEntityList.forEach(parkingLotEntity -> {
-            itemResponseList.add(parkingLotMapper.mapToParkingLotItemResponse(parkingLotEntity));
-        });
-
-        return itemResponseList;
-    }
 }

@@ -1,7 +1,6 @@
 package com.parking.lot.api.service;
 
 import com.parking.lot.api.controller.dto.ParkingLotRequest;
-import com.parking.lot.api.repository.ParkingLotRepository;
 import com.parking.lot.api.repository.ParkingLotEntity;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,9 +20,6 @@ class ParkingLotServiceIntegrationTest {
 
     @Autowired
     private ParkingLotService parkingLotService;
-
-    @Autowired
-    private ParkingLotRepository parkingLotRepository;
 
     List<ParkingLotEntity> parkingLotEntityList = Lists.newArrayList();
 

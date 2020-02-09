@@ -1,5 +1,6 @@
 package com.parking.lot.api.service;
 
+import com.google.common.collect.Lists;
 import com.parking.lot.api.controller.dto.ParkingLotItemResponse;
 import com.parking.lot.api.repository.ParkingLotEntity;
 import com.parking.lot.api.util.DateTimeUtils;
@@ -11,11 +12,12 @@ import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class ParkingLotMapper {
 
-    private static ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @PostConstruct
     public void setUp() {
@@ -28,6 +30,16 @@ public class ParkingLotMapper {
                 skip().setClosingTime(null);
             }
         });
+    }
+
+    public List<ParkingLotItemResponse> mapToParkingLotItemResponseList(List<ParkingLotEntity> parkingLotEntityList) {
+        List<ParkingLotItemResponse> itemResponseList = Lists.newArrayList();
+
+        parkingLotEntityList.forEach(parkingLotEntity -> {
+            itemResponseList.add(mapToParkingLotItemResponse(parkingLotEntity));
+        });
+
+        return itemResponseList;
     }
 
     public ParkingLotItemResponse mapToParkingLotItemResponse(ParkingLotEntity parkingLotEntity) {
