@@ -1,22 +1,37 @@
 import React from "react";
+import {Table} from 'react-bootstrap';
 
 const ParkingLotList = ({data: parkingLotList}) => {
-
     return (
-        <div>
-            {parkingLotList.map((parkingLot, i) => (
-                <div className="card" key={parkingLot.code}>
-                    <div className="card-body">
-                        <h5 className="card-title">{parkingLot.name}</h5>
-                        <h6 className="card-subtitle mb-2 text-muted">{parkingLot.address}</h6>
-                        <p className="card-text">{parkingLot.tel}</p>
-                        <p className="card-text">Open : {parkingLot.openingTime}</p>
-                        <p className="card-text">Close : {parkingLot.closingTime}</p>
-                        <p className="card-text">{parkingLot.available ? "Parking available" : "Parking not available"}</p>
-                        <p className="card-text">{parkingLot.availableCount}</p>
-                    </div>
-                </div>
-            ))}
+        <div style={{marginLeft: "5%", marginRight: "5%"}}>
+            <Table responsive>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Tel</th>
+                    <th>Available Now</th>
+                    <th>Capacity</th>
+                    <th>Business hour</th>
+                    <th>Fee</th>
+                    <th>Use time</th>
+                </tr>
+                </thead>
+                <tbody>
+                {parkingLotList.map((parkingLot, i) => (
+                        <tr key={parkingLot.code}>
+                            <td>{parkingLot.name}</td>
+                            <td>{parkingLot.address}</td>
+                            <td>{parkingLot.tel}</td>
+                            <td>{parkingLot.available ? "Yes" : "No"}</td>
+                            <td>{parkingLot.availableCount}</td>
+                            <td>{parkingLot.openingTime} - {parkingLot.closingTime}</td>
+                            <td>{parkingLot.basicParkingFee}</td>
+                            <td>{parkingLot.basicParkingMin}</td>
+                        </tr>
+                ))}
+                </tbody>
+            </Table>
         </div>
     )
 }

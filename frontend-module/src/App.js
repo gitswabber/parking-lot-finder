@@ -69,13 +69,13 @@ class App extends Component {
     render() {
         return (
             <div>
-                <h2 align="center">Finding parking lot in Seoul!</h2>
-                <Form>
-                    <Form.Group as={Row} controlId="formHorizontalEmail">
+                <h2 style={{margin: "3%"}} align="center">Finding parking lot in Seoul!</h2>
+                <Form style={{margin: "5%"}}>
+                    <Form.Group as={Row}>
                         <Form.Label column sm={1}>
                             Name
                         </Form.Label>
-                        <Col sm={7}>
+                        <Col style={{marginLeft: "2%"}} sm={5}>
                             <Form.Control placeholder="Please input name."
                                           onChange={this.handleNameChange}
                                           onKeyPress={event => {
@@ -83,11 +83,11 @@ class App extends Component {
                                           }}/>
                         </Col>
                     </Form.Group>
-                    <Form.Group as={Row} controlId="formHorizontalEmail">
+                    <Form.Group as={Row}>
                         <Form.Label column sm={1}>
                             Address
                         </Form.Label>
-                        <Col sm={7}>
+                        <Col style={{marginLeft: "2%"}} sm={5}>
                             <Form.Control placeholder="Please input address."
                                           onChange={this.handleAddressChange}
                                           onKeyPress={event => {
@@ -95,24 +95,26 @@ class App extends Component {
                                           }}/>
                         </Col>
                     </Form.Group>
-                    <Form.Group as={Row} controlId="formHorizontalEmail">
+                    <Form.Group as={Row}>
                         <Form.Label column sm={1}>
                             Tel
                         </Form.Label>
-                        <Col sm={7}>
+                        <Col style={{marginLeft: "2%"}} sm={5}>
                             <Form.Control placeholder="Please input tel."
                                           onChange={this.handleTelChange}
                                           onKeyPress={event => {
                                               if (event.key === 'Enter') this.clickSearchButton();
                                           }}/>
                         </Col>
+                        <Col sm={5}>
+                            <ButtonGroup style={{marginLeft: "5%"}}>
+                                <ButtonToolbar>
+                                    <Button variant="primary" onClick={() => this.clickSearchButton()}>Search</Button>
+                                </ButtonToolbar>
+                            </ButtonGroup>
+                        </Col>
                     </Form.Group>
 
-                    <ButtonGroup>
-                        <ButtonToolbar>
-                            <Button variant="secondary" onClick={() => this.clickSearchButton()}>Search</Button>
-                        </ButtonToolbar>
-                    </ButtonGroup>
                 </Form>
                 <ParkingLotList data={this.state.parkingLotList}/>
                 <div className="d-flex justify-content-center">
@@ -121,8 +123,8 @@ class App extends Component {
                         itemsCountPerPage={this.state.itemsCountPerPage}
                         totalItemsCount={this.state.totalItemsCount}
                         pageRangeDisplayed={this.state.pageRangeDisplayed}
-                        itemClass='page-item'
-                        linkClass='page-link'
+                        itemClass="page-item"
+                        linkClass="page-link"
                         onChange={this.handlePageChange}
                     />
                 </div>

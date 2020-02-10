@@ -16,4 +16,6 @@ public class ParkingLotItemResponse {
     private String closingTime;
     private boolean available;
     private int availableCount;
+    private int basicParkingFee;
+    private int basicParkingMin;
 }

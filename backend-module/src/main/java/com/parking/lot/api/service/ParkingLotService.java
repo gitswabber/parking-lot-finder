@@ -23,7 +23,8 @@ public class ParkingLotService {
     private final ParkingLotRepository parkingLotRepository;
 
     public ParkingLotResponse searchParkingLotList(ParkingLotRequest parkingLotRequest, Pageable pageable) {
-        final Specification<ParkingLotEntity> specification = parkingLotSpecification.getSpecification(parkingLotRequest.getAddress(), parkingLotRequest.getName(), parkingLotRequest.getTel());
+        final Specification<ParkingLotEntity> specification = parkingLotSpecification.getSpecification(
+                parkingLotRequest.getAddress(), parkingLotRequest.getName(), parkingLotRequest.getTel());
         final Page<ParkingLotEntity> parkingLotEntityPage = parkingLotRepository.findAll(specification, pageable);
 
         final List<ParkingLotItemResponse> itemResponseList = parkingLotMapper.mapToParkingLotItemResponseList(parkingLotEntityPage.getContent());
