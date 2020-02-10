@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ParkingLotList from "./components/ParkingLotList";
 import Pagination from "react-js-pagination";
-import {Form, InputGroup, FormControl, Button, ButtonGroup, ButtonToolbar} from 'react-bootstrap';
+import {Button, ButtonGroup, ButtonToolbar, Col, Form, Row} from 'react-bootstrap';
 
 class App extends Component {
 
@@ -23,10 +23,6 @@ class App extends Component {
         this.clickSearchButton = this.clickSearchButton.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
         this.searchParkingLotList = this.searchParkingLotList.bind(this);
-    }
-
-    // todo handling for initialization
-    componentDidMount() {
     }
 
     handleAddressChange(e) {
@@ -74,31 +70,50 @@ class App extends Component {
         return (
             <div>
                 <h2 align="center">Finding parking lot in Seoul!</h2>
-                <form>
-                    <label>
-                        {/* todo https://react-bootstrap.github.io/components/input-group/ */}
-                        Address : <input type="text" value={this.state.address} onChange={this.handleAddressChange}/>
-                        Name : <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
-                        Tel : <input type="text" value={this.state.tel} onChange={this.handleTelChange}/>
-                    </label>
-                    {/*                    <Form>
-                        <InputGroup className="mb-3">
-                            <InputGroup.Prepend>
-                                <InputGroup.Text id="basic-addon1">Address</InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <FormControl
-                                placeholder="address"
-                                aria-label="Username"
-                                aria-describedby="basic-addon1"
-                            />
-                        </InputGroup>
-                    </Form>*/}
+                <Form>
+                    <Form.Group as={Row} controlId="formHorizontalEmail">
+                        <Form.Label column sm={1}>
+                            Name
+                        </Form.Label>
+                        <Col sm={7}>
+                            <Form.Control placeholder="Please input name."
+                                          onChange={this.handleNameChange}
+                                          onKeyPress={event => {
+                                              if (event.key === 'Enter') this.clickSearchButton();
+                                          }}/>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="formHorizontalEmail">
+                        <Form.Label column sm={1}>
+                            Address
+                        </Form.Label>
+                        <Col sm={7}>
+                            <Form.Control placeholder="Please input address."
+                                          onChange={this.handleAddressChange}
+                                          onKeyPress={event => {
+                                              if (event.key === 'Enter') this.clickSearchButton();
+                                          }}/>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="formHorizontalEmail">
+                        <Form.Label column sm={1}>
+                            Tel
+                        </Form.Label>
+                        <Col sm={7}>
+                            <Form.Control placeholder="Please input tel."
+                                          onChange={this.handleTelChange}
+                                          onKeyPress={event => {
+                                              if (event.key === 'Enter') this.clickSearchButton();
+                                          }}/>
+                        </Col>
+                    </Form.Group>
+
                     <ButtonGroup>
                         <ButtonToolbar>
                             <Button variant="secondary" onClick={() => this.clickSearchButton()}>Search</Button>
                         </ButtonToolbar>
                     </ButtonGroup>
-                </form>
+                </Form>
                 <ParkingLotList data={this.state.parkingLotList}/>
                 <div className="d-flex justify-content-center">
                     <Pagination
