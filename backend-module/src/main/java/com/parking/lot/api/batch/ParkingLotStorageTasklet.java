@@ -1,15 +1,18 @@
 package com.parking.lot.api.batch;
 
 import com.google.common.collect.Lists;
-import com.parking.lot.api.service.seoul.api.SeoulParkingLotService;
 import com.parking.lot.api.repository.ParkingLotEntity;
 import com.parking.lot.api.repository.ParkingLotRepository;
+import com.parking.lot.api.service.seoul.api.SeoulParkingLotService;
 import com.parking.lot.api.service.seoul.api.dto.SeoulParkingLot;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
@@ -18,10 +21,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
-@StepScope
 @Component
-public class ParkingLotStorageTasklet implements Tasklet {
+public class ParkingLotStorageTasklet implements Tasklet, StepExecutionListener {
 
     private final SeoulParkingLotService seoulParkingLotService;
     private final ParkingLotRepository parkingLotRepository;
@@ -34,6 +37,14 @@ public class ParkingLotStorageTasklet implements Tasklet {
     public void setUp() {
         startIndex = 1;
         endIndex = SEARCH_SIZE;
+    }
+
+    @Override
+    public void beforeStep(final StepExecution stepExecution) {
+        if (parkingLotRepository.count() > 0) {
+            parkingLotRepository.deleteAll();
+            log.info("Deleted old parking lot data.");
+        }
     }
 
     @Override
@@ -54,6 +65,12 @@ public class ParkingLotStorageTasklet implements Tasklet {
         endIndex += SEARCH_SIZE;
 
         return RepeatStatus.CONTINUABLE;
+    }
+
+    @Override
+    public ExitStatus afterStep(final StepExecution stepExecution) {
+        log.info("Finished copy of Seoul parking lot data into DB.");
+        return ExitStatus.COMPLETED;
     }
 
     private List<ParkingLotEntity> mapToParkingLotEntityList(List<SeoulParkingLot> seoulParkingLotList) {

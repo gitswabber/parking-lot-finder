@@ -79,5 +79,4 @@ class ParkingLotMapperTest {
 
         Assertions.assertEquals(expected, parkingLotItemResponse.isAvailable());
     }
-    // todo logbacck sjlfsjl
 }

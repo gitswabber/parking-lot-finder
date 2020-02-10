@@ -22,17 +22,21 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-batch")
 
+    implementation("org.apache.commons:commons-lang3")
+    implementation("org.apache.commons:commons-collections4:${project.extra["commons-collections4.version"]}")
+
     implementation("com.h2database:h2:${project.extra["h2.version"]}")
 
     implementation("org.modelmapper:modelmapper:${project.extra["model-mapper.version"]}")
 
     implementation("com.google.guava:guava:${project.extra["guava.version"]}")
-    implementation("org.apache.commons:commons-lang3:${project.extra["commons-lang3.version"]}")
-    implementation("org.apache.commons:commons-collections4:${project.extra["commons-collections4.version"]}")
 
     implementation("com.squareup.retrofit2:retrofit:${project.extra["retrofit.version"]}")
     implementation("com.squareup.retrofit2:converter-jackson:${project.extra["retrofit-converter.version"]}")
     implementation("com.squareup.okhttp3:logging-interceptor:${project.extra["logging-interceptor.version"]}")
+
+    implementation("org.springdoc:springdoc-openapi-core:${project.extra["springdoc-openapi.version"]}")
+    implementation("org.springdoc:springdoc-openapi-ui:${project.extra["springdoc-openapi.version"]}")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

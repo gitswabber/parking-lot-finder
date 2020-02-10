@@ -7,3 +7,10 @@ spring:
       enabled: true
   main:
     allow-bean-definition-overriding: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
