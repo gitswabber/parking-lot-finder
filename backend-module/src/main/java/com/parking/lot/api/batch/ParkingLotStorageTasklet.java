@@ -18,7 +18,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Slf4j
@@ -33,14 +32,10 @@ public class ParkingLotStorageTasklet implements Tasklet, StepExecutionListener 
     private int startIndex;
     private int endIndex;
 
-    @PostConstruct
-    public void setUp() {
-        startIndex = 1;
-        endIndex = SEARCH_SIZE;
-    }
-
     @Override
     public void beforeStep(final StepExecution stepExecution) {
+        startIndex = 1;
+        endIndex = SEARCH_SIZE;
         if (parkingLotRepository.count() > 0) {
             parkingLotRepository.deleteAll();
             log.info("Deleted old parking lot data.");
