@@ -5,8 +5,6 @@ services:
     build:
       context: backend-module
       dockerfile: Dockerfile
-#    build: .
-#    image: parking-lot-finder-backend:0.0.1
     environment:
       SPRING_PROFILES_ACTIVE: dev
       ROOT_LOG_LEVEL: DEBUG
@@ -15,8 +13,6 @@ services:
     restart: always
     ports:
       - 8080:8080
-#    volumes:
-#      - './backend-module:/app'
     networks:
       - api-server
       - ui-server
@@ -38,9 +34,6 @@ services:
       - ui-server
     depends_on:
       - api-server
-
-#volumes:
-#  db-data:
 
 networks:
   api-server:

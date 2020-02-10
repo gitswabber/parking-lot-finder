@@ -5,7 +5,6 @@ import com.parking.lot.api.controller.dto.ParkingLotRequest;
 import com.parking.lot.api.controller.dto.ParkingLotResponse;
 import com.parking.lot.api.service.ParkingLotService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,9 +37,7 @@ public class ParkingLotController {
                             schema = @Schema(implementation = ErrorResponse.class)
                     ))})
     @GetMapping("parking-lots")
-    public ResponseEntity<ParkingLotResponse> searchParkingLotList(
-            @Parameter(schema = @Schema(implementation = ParkingLotRequest.class)) @ModelAttribute ParkingLotRequest parkingLotRequest
-            , Pageable pageable) {
+    public ResponseEntity<ParkingLotResponse> searchParkingLotList(@ModelAttribute ParkingLotRequest parkingLotRequest, Pageable pageable) {
         final ParkingLotResponse parkingLotResponse = parkingLotService.searchParkingLotList(parkingLotRequest, pageable);
         return new ResponseEntity<>(parkingLotResponse, HttpStatus.OK);
     }
