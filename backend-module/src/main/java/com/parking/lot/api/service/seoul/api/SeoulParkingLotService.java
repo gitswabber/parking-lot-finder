@@ -2,7 +2,7 @@ package com.parking.lot.api.service.seoul.api;
 
 import com.google.common.collect.Lists;
 import com.parking.lot.api.client.RetrofitServiceGenerator;
-import com.parking.lot.api.exception.BatchJobException;
+import com.parking.lot.api.exception.ParkingLotException;
 import com.parking.lot.api.service.seoul.api.dto.SeoulParkingLot;
 import com.parking.lot.api.service.seoul.api.dto.SeoulParkingLotApiClientProperties;
 import com.parking.lot.api.service.seoul.api.dto.SeoulParkingLotApiResponse;
@@ -39,7 +39,7 @@ public class SeoulParkingLotService {
             }
             return Lists.newArrayList();
         } catch (Exception e) {
-            throw new BatchJobException(String.format("Error has occurred while getting parking lot information from Seoul open API. " +
+            throw new ParkingLotException(String.format("Error has occurred while getting parking lot information from Seoul open API. " +
                     "Auth key : %s, Search index from %s to %s.", apiClientProperties.getAuthKey(), startIndex, endIndex), e);
         }
     }
