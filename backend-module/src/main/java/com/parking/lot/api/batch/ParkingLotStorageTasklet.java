@@ -44,6 +44,8 @@ public class ParkingLotStorageTasklet implements Tasklet {
             return RepeatStatus.FINISHED;
         }
 
+        seoulParkingLotList.removeIf(seoulParkingLot -> parkingLotRepository.findById(seoulParkingLot.getCode()).isPresent());
+
         final List<ParkingLotEntity> parkingLotEntityList = mapToParkingLotEntityList(seoulParkingLotList);
 
         parkingLotRepository.saveAll(parkingLotEntityList);

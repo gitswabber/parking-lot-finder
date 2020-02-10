@@ -2,6 +2,7 @@ package com.parking.lot.api.repository;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // todo
 //@ExtendWith(SpringR.class)
-@DataJpaTest(excludeAutoConfiguration = FlywayAutoConfiguration.class)
+@DataJpaTest
 class ParkingLotRepositoryTest {
 
     @Autowired
@@ -40,6 +41,7 @@ class ParkingLotRepositoryTest {
 //    void setUp() {
 //    }
 
+//    @Disabled
     @Test
     void findAll() {
 
@@ -51,6 +53,10 @@ class ParkingLotRepositoryTest {
 
         final ParkingLotEntity entity = new ParkingLotEntity();
         entity.setCode(111L);
+        entity.setName("test name");
+        entity.setAddress("test address");
+        entity.setTel("111-1111");
+        entity.setBasicParkingFee(100);
         entityManager.persist(entity);
         entityManager.flush();
 

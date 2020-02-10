@@ -1,6 +1,7 @@
 package com.parking.lot.api.service.seoul.api;
 
 import com.parking.lot.api.service.seoul.api.dto.SeoulParkingLotApiClientProperties;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,22 +26,23 @@ import static org.mockito.Mockito.when;
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class SeoulParkingLotServiceTest {
 
-    @Mock
+/*    @Mock
     private SeoulParkingLotApiClientProperties apiClientProperties;
 
     @Mock
     private SeoulParkingLotRetrofitService retrofitService;
 
     @InjectMocks
-    private SeoulParkingLotService seoulParkingLotService;
+    private SeoulParkingLotService seoulParkingLotService;*/
 
+    @Disabled
     @Test
     void getSeoulParkingLotList() throws IOException {
         Call call = mock(Call.class);
         Response response = mock(Response.class);
 
-        when(retrofitService.getSeoulParkingLotInformation(anyString(), anyInt(), anyInt())).thenReturn(call);
-        when(call.execute()).thenReturn(response);
+//        when(retrofitService.getSeoulParkingLotInformation(anyString(), anyInt(), anyInt())).thenReturn(call);
+//        when(call.execute()).thenReturn(response);
 //        when(response.body())
     }
 }
