@@ -1,6 +1,5 @@
 package com.parking.lot.api.service;
 
-import com.google.common.collect.Lists;
 import com.parking.lot.api.controller.dto.ParkingLotItemResponse;
 import com.parking.lot.api.repository.ParkingLotEntity;
 import com.parking.lot.api.util.DateTimeUtils;
@@ -13,6 +12,7 @@ import org.springframework.util.Assert;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ParkingLotMapper {
@@ -33,13 +33,7 @@ public class ParkingLotMapper {
     }
 
     public List<ParkingLotItemResponse> mapToParkingLotItemResponseList(List<ParkingLotEntity> parkingLotEntityList) {
-        List<ParkingLotItemResponse> itemResponseList = Lists.newArrayList();
-
-        parkingLotEntityList.forEach(parkingLotEntity -> {
-            itemResponseList.add(mapToParkingLotItemResponse(parkingLotEntity));
-        });
-
-        return itemResponseList;
+        return parkingLotEntityList.stream().map(this::mapToParkingLotItemResponse).collect(Collectors.toList());
     }
 
     public ParkingLotItemResponse mapToParkingLotItemResponse(ParkingLotEntity parkingLotEntity) {
@@ -59,25 +53,24 @@ public class ParkingLotMapper {
     }
 
     private boolean isParkingAvailable(LocalDateTime today, ParkingLotEntity parkingLotEntity) {
-        if (parkingLotEntity.getCurrentParkingCount() < parkingLotEntity.getParkingCapacityCount()) {
-            final String defaultTimeStr = "0000";
-
-            final String openingTimeStr = StringUtils.defaultIfBlank(DateTimeUtils.isWeekend(today) ?
-                    parkingLotEntity.getWeekendOpeningTime() : parkingLotEntity.getWeekdayOpeningTime(), defaultTimeStr);
-
-            final String closingTimeStr = StringUtils.defaultIfBlank(DateTimeUtils.isWeekend(today) ?
-                    parkingLotEntity.getWeekendClosingTime() : parkingLotEntity.getWeekdayClosingTime(), defaultTimeStr);
-
-            // In case business hour is 24 hours.
-            if (StringUtils.equals(openingTimeStr, closingTimeStr)) {
-                return true;
-            }
-
-            int openingTime = Integer.parseInt(openingTimeStr);
-            int closingTime = Integer.parseInt(closingTimeStr);
-            int currentHourMinute = Integer.parseInt(DateTimeUtils.getHourMinute(today));
-            return (openingTime < currentHourMinute && currentHourMinute < closingTime);
+        if (parkingLotEntity.getCurrentParkingCount() >= parkingLotEntity.getParkingCapacityCount()) {
+            return false;
         }
-        return false;
+        final String defaultTimeStr = "0000";
+
+        final String openingTimeStr = StringUtils.defaultIfBlank(DateTimeUtils.isWeekend(today) ?
+                parkingLotEntity.getWeekendOpeningTime() : parkingLotEntity.getWeekdayOpeningTime(), defaultTimeStr);
+        final String closingTimeStr = StringUtils.defaultIfBlank(DateTimeUtils.isWeekend(today) ?
+                parkingLotEntity.getWeekendClosingTime() : parkingLotEntity.getWeekdayClosingTime(), defaultTimeStr);
+
+        // In case business hour is 24 hours.
+        if (StringUtils.equals(openingTimeStr, closingTimeStr)) {
+            return true;
+        }
+
+        int openingTime = Integer.parseInt(openingTimeStr);
+        int closingTime = Integer.parseInt(closingTimeStr);
+        int currentHourMinute = Integer.parseInt(DateTimeUtils.getHourMinute(today));
+        return (openingTime < currentHourMinute && currentHourMinute < closingTime);
     }
 }

@@ -4,11 +4,6 @@ repositories {
     jcenter()
 }
 
-plugins {
-    id("net.ltgt.apt") version "0.21"
-    id("net.ltgt.apt-idea") version "0.21"
-}
-
 apply {
     plugin("org.springframework.boot")
     plugin("io.spring.dependency-management")

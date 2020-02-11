@@ -1,7 +1,6 @@
 package com.parking.lot.api.batch;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -23,7 +22,6 @@ public class ParkingLotStorageJobIntegrationTest {
     @Autowired
     private Job parkingLotStorageJob;
 
-    @Disabled
     @Test
     public void parkingLotStorageJob() throws Exception {
         final JobParameters jobParameters = new JobParametersBuilder().addDate("date", new Date()).toJobParameters();
