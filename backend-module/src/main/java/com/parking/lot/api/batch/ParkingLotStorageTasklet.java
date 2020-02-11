@@ -9,19 +9,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class ParkingLotStorageTasklet implements Tasklet {
+public class ParkingLotStorageTasklet implements Tasklet, StepExecutionListener {
 
     private final SeoulParkingLotService seoulParkingLotService;
     private final ParkingLotRepository parkingLotRepository;
