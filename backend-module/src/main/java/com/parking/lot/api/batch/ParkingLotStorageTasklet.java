@@ -30,9 +30,14 @@ public class ParkingLotStorageTasklet implements Tasklet {
     private int startIndex;
     private int endIndex;
 
-    @PostConstruct
-    public void setUp() {
+    @Override
+    public void beforeStep(final StepExecution stepExecution) {
         initializeIndex();
+        final long count = parkingLotRepository.count();
+        if (count > 0) {
+            parkingLotRepository.deleteAll();
+            log.info("Deleted old parking lot data. data count : {}", count);
+        }
     }
 
     @Override
@@ -43,6 +48,8 @@ public class ParkingLotStorageTasklet implements Tasklet {
             initializeIndex();
             return RepeatStatus.FINISHED;
         }
+
+        seoulParkingLotList.removeIf(seoulParkingLot -> parkingLotRepository.findById(seoulParkingLot.getCode()).isPresent());
 
         final List<ParkingLotEntity> parkingLotEntityList = mapToParkingLotEntityList(seoulParkingLotList);
 
@@ -64,5 +71,11 @@ public class ParkingLotStorageTasklet implements Tasklet {
         List<ParkingLotEntity> parkingLotEntityList = Lists.newArrayList();
         seoulParkingLotList.forEach(seoulParkingLot -> parkingLotEntityList.add(modelMapper.map(seoulParkingLot, ParkingLotEntity.class)));
         return parkingLotEntityList;
+    }
+
+    @Override
+    public ExitStatus afterStep(final StepExecution stepExecution) {
+        log.info("Finished copy parking lot data into DB.");
+        return stepExecution.getExitStatus();
     }
 }
