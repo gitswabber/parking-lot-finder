@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      ROOT_LOG_LEVEL: DEBUG
+      SEOUL-PARKING-LOT-API-AUTH-KEY: 4a65744e4f746c61393948636a656f
       JAVA_TOOL_OPTIONS: -Xms1G -Xmx1G -Djava.security.egd=file:/dev/./urandom
       TZ: Asia/Seoul
     restart: always
@@ -22,8 +22,6 @@ services:
     build:
       context: frontend-module
       dockerfile: Dockerfile
-      args:
-        API_BASE_URL: http://localhost:8080/api/v1
     restart: always
     ports:
       - 3000:3000
