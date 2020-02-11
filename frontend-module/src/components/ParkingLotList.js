@@ -11,7 +11,6 @@ const ParkingLotList = ({data: parkingLotList}) => {
                     <th>Address</th>
                     <th>Tel</th>
                     <th>Available Now</th>
-                    <th>Capacity</th>
                     <th>Business hour</th>
                     <th>Fee</th>
                     <th>Use time</th>
@@ -24,7 +23,6 @@ const ParkingLotList = ({data: parkingLotList}) => {
                             <td>{parkingLot.address}</td>
                             <td>{parkingLot.tel}</td>
                             <td>{parkingLot.available ? "Yes" : "No"}</td>
-                            <td>{parkingLot.availableCount}</td>
                             <td>{parkingLot.openingTime} - {parkingLot.closingTime}</td>
                             <td>{parkingLot.basicParkingFee}</td>
                             <td>{parkingLot.basicParkingMin}</td>

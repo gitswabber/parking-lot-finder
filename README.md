@@ -23,13 +23,14 @@ $ docker-compose down
 $ http://localhost:3000
 ```
 
-## Api document URL 
+## API document URL 
 ``` 
 http://localhost:8080/swagger-ui.html  
 http://localhost:8080/api-docs  
+http://localhost:8080/api-docs.yaml
 ```
 
-## Api format
+## API format
 All parameters are optional.
 ```
 http://localhost:8080/api/v1/parking-lots?address={address}&name={name}&tel={tel}&sort=basicParkingFee,ASC

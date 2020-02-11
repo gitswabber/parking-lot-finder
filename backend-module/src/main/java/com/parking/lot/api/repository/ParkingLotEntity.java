@@ -32,12 +32,6 @@ public class ParkingLotEntity {
     @Column(name = "TEL", nullable = false)
     private String tel;
 
-    @Column(name = "CAPACITY")
-    private int parkingCapacityCount;
-
-    @Column(name = "CUR_PARKING")
-    private int currentParkingCount;
-
     @Column(name = "WEEKDAY_BEGIN_TIME")
     private String weekdayOpeningTime;
 

@@ -46,16 +46,12 @@ public class ParkingLotMapper {
         parkingLotItemResponse.setOpeningTime(DateTimeUtils.isWeekend(today) ? parkingLotEntity.getWeekendOpeningTime() : parkingLotEntity.getWeekdayOpeningTime());
         parkingLotItemResponse.setClosingTime(DateTimeUtils.isWeekend(today) ? parkingLotEntity.getWeekendClosingTime() : parkingLotEntity.getWeekdayClosingTime());
 
-        parkingLotItemResponse.setAvailableCount(parkingLotEntity.getParkingCapacityCount() - parkingLotEntity.getCurrentParkingCount());
         parkingLotItemResponse.setAvailable(isParkingAvailable(today, parkingLotEntity));
 
         return parkingLotItemResponse;
     }
 
     private boolean isParkingAvailable(LocalDateTime today, ParkingLotEntity parkingLotEntity) {
-        if (parkingLotEntity.getCurrentParkingCount() >= parkingLotEntity.getParkingCapacityCount()) {
-            return false;
-        }
         final String defaultTimeStr = "0000";
 
         final String openingTimeStr = StringUtils.defaultIfBlank(DateTimeUtils.isWeekend(today) ?

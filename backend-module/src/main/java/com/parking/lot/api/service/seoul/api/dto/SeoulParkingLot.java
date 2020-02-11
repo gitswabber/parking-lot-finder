@@ -19,12 +19,6 @@ public class SeoulParkingLot {
     @JsonProperty("TEL")
     private String tel;
 
-    @JsonProperty("CAPACITY")
-    private int parkingCapacityCount;
-
-    @JsonProperty("CUR_PARKING")
-    private int currentParkingCount;
-
     @JsonProperty("WEEKDAY_BEGIN_TIME")
     private String weekdayOpeningTime;
 
