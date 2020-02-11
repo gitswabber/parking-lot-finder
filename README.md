@@ -2,8 +2,17 @@
 This project is for finding available parking lot in Seoul.
 It has two modules as ui and server.
 
-## Build
-Before running whole application, you need to build server module using gradle wrapper.  
+## Prerequisite
+There are two required steps to run this application. 
+
+One is to set auth key for Seoul open api(http://openapi.seoul.go.kr:8088), and the other is to build server module using gradle wrapper.
+
+#### Set the environment value 
+```   
+$ export SEOUL_PARKING_LOT_API_AUTH_KEY={AUTH_KEY}
+```  
+
+#### Build 
 ```  
 $ ./gradlew backend-module:clean backend-module:build
 ```  
@@ -36,7 +45,7 @@ All parameters are optional.
 http://localhost:8080/api/v1/parking-lots?address={address}&name={name}&tel={tel}&sort=basicParkingFee,ASC
 ```
 
-### Example
+#### Example
 ```
 http://localhost:8080/api/v1/parking-lots
 http://localhost:8080/api/v1/parking-lots?address=강남&sort=basicParkingFee,ASC

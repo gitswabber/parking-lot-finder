@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SEOUL-PARKING-LOT-API-AUTH-KEY: 4a65744e4f746c61393948636a656f
+      SEOUL-PARKING-LOT-API-AUTH-KEY: ${SEOUL_PARKING_LOT_API_AUTH_KEY}
       JAVA_TOOL_OPTIONS: -Xms1G -Xmx1G -Djava.security.egd=file:/dev/./urandom
       TZ: Asia/Seoul
     restart: always
