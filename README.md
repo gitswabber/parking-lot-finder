@@ -29,7 +29,7 @@ $ docker-compose down
 
 ## Web page URL
 ```
-$ http://localhost:3000
+http://localhost:3000
 ```
 
 ## API document URL 
