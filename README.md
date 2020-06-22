@@ -3,9 +3,15 @@ This project is for finding available parking lot in Seoul.
 It has two modules as ui and server.
 
 ## Prerequisite
-There are two required steps to run this application. 
 
-One is to set auth key for Seoul open api(http://openapi.seoul.go.kr:8088), and the other is to build server module using gradle wrapper.
+#### Environment
+* JDK 13  
+* Spring boot 2.2.4  
+* Gradle 6.0.1  
+* Docker  
+
+> There are two required steps to run this application.  
+> One is to set auth key for Seoul open api(http://openapi.seoul.go.kr:8088), and the other is to build server module using gradle wrapper.
 
 #### Set the environment value 
 ```   
